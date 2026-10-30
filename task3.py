@@ -6,67 +6,42 @@ sales = {
     "Пятница":     [("капучино", 120, 10), ("эспрессо", 90, 21), ("какао", 110, 9)],
 }
 
-total_pon = 0
-for name, price, qty in sales["Понедельник"]:
-    total_pon += price * qty
-print("Понедельник: выручка", total_pon)
+day_forms = {
+    "Понедельник": "Понедельника",
+    "Вторник": "Вторника",
+    "Среда": "Среды",
+    "Четверг": "Четверга",
+    "Пятница": "Пятницы"
+}
 
-best_pon = ""
-cnt_pon = 0
-for name, price, qty in sales["Понедельник"]:
-    if qty > cnt_pon:
-        cnt_pon = qty
-        best_pon = name
-print("Хит Понедельника:", best_pon)
+def calculate_price(price, qty):
+    return price * qty
 
-total_vt = 0
-for name, price, qty in sales["Вторник"]:
-    total_vt += price * qty
-print("Вторник: выручка", total_vt)
+def total(sales, day):
+    total_day = 0
+    for name, price, qty in sales[day]:
+        total_day += calculate_price(price, qty)
 
-best_vt = ""
-cnt_vt = 0
-for name, price, qty in sales["Вторник"]:
-    if qty > cnt_vt:
-        cnt_vt = qty
-        best_vt = name
-print("Хит Вторника:", best_vt)
+    return total_day
 
-total_sr = 0
-for name, price, qty in sales["Среда"]:
-    total_sr += price * qty
-print("Среда: выручка", total_sr)
+def best(sales, day):
+    best_day = ""
+    cnt_day = 0
+    for name, price, qty in sales[day]:
+        if qty > cnt_day:
+            cnt_day = qty
+            best_day = name
+    return f"Хит {day_forms[day]}: {best_day}"
 
-best_sr = ""
-cnt_sr = 0
-for name, price, qty in sales["Среда"]:
-    if qty > cnt_sr:
-        cnt_sr = qty
-        best_sr = name
-print("Хит Среды:", best_sr)
 
-total_cht = 0
-for name, price, qty in sales["Четверг"]:
-    total_cht += price * qty
-print("Четверг: выручка", total_cht)
+def format_money(money):
+    rub = int(money)
+    kop = round((money - rub) * 100)
+    # return f"{rub} руб {kop:02d} коп."
+    return rub
 
-best_cht = ""
-cnt_cht = 0
-for name, price, qty in sales["Четверг"]:
-    if qty > cnt_cht:
-        cnt_cht = qty
-        best_cht = name
-print("Хит Четверга:", best_cht)
 
-total_pt = 0
-for name, price, qty in sales["Пятница"]:
-    total_pt += price * qty
-print("Пятница: выручка", total_pt)
+for name_day in sales:
+    print( f'{name_day}: выручка { format_money(total( sales, name_day))}')
+    print( best( sales, name_day))
 
-best_pt = ""
-cnt_pt = 0
-for name, price, qty in sales["Пятница"]:
-    if qty > cnt_pt:
-        cnt_pt = qty
-        best_pt = name
-print("Хит Пятницы:", best_pt)
